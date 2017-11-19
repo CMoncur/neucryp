@@ -1,7 +1,10 @@
 const Brain   = require('brain.js')
-    , CronJob = require('cron').CronJob;
+    , Cron    = require('cron').CronJob
+    , request = require('request')
 
-let Neurcryp = new Brain.NeuralNetwork()
+/* NEURAL NETWORK */
+// Instantiate neural network
+let neucryp = new Brain.NeuralNetwork()
 
 const dummyData =
   [ { input: [ 0, 0 ], output: { true: 0, false: 1 } }
@@ -10,13 +13,23 @@ const dummyData =
   , { input: [ 1, 1 ], output: { true: 0, false: 1 } }
   ]
 
-Neurcryp.train(dummyData)
+neucryp.train(dummyData)
 
-const job = new CronJob(
+const fetchData = () => {
+  console.log(neucryp.run([ 1, 0 ]))
+}
+
+/* CRON */
+// Base cron settings
+const cronSettings =
   { cronTime: '0 * * * * *' // First second of every minute of every hour of ...
-  , onTick: () => console.log(Neurcryp.run([ 1, 0 ]))
+  , onTick: fetchData
   , start: false
   }
-)
 
-job.start()
+// Cron for training neural network and logging prediction
+const app = new Cron(cronSettings)
+
+/* APPLICATION */
+// Start the application
+app.start()
