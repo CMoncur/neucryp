@@ -1,5 +1,5 @@
 {
-  "name": "neurcryp",
+  "name": "neucryp",
   "version": "0.0.1",
   "description": "JS neural network used to predict cryptocurrency prices",
   "main": "index.js",
@@ -8,16 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CMoncur/neurcryp.git"
+    "url": "git+https://github.com/CMoncur/neucryp.git"
   },
   "author": "Cody Moncur",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CMoncur/neurcryp/issues"
+    "url": "https://github.com/CMoncur/neucryp/issues"
   },
-  "homepage": "https://github.com/CMoncur/neurcryp#readme",
+  "homepage": "https://github.com/CMoncur/neucryp#readme",
   "devDependencies": {
-    "ava": "^0.23.0"
+    "ava": "^0.23.0",
+    "cron": "^1.3.0"
   },
   "dependencies": {
     "brain.js": "^1.0.0-rc.3"
