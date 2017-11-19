@@ -15,8 +15,11 @@ const dummyData =
 
 neucryp.train(dummyData)
 
-const fetchData = () => {
-  console.log(neucryp.run([ 1, 0 ]))
+console.log(neucryp.run([0,1]))
+
+const fetchData = async () => {
+  const rawCryptoData = await Axios.get('https://min-api.cryptocompare.com/data/histominute?fsym=ETH&tsym=USD&e=CCCAGG&limit=1')
+  console.log(rawCryptoData.data.Data)
 }
 
 /* CRON */
