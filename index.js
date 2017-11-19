@@ -26,17 +26,44 @@ neucryp.train(dummyData)
 
 console.log(neucryp.run([0,1]))
 
+/*
+rawCryptoData.data.Data
+[ { time: 1511130060,
+    close: 356.18,
+    high: 356.24,
+    low: 355.68,
+    open: 355.68,
+    volumefrom: 468.34,
+    volumeto: 166628.33 },
+  { time: 1511130120,
+    close: 356.22,
+    high: 356.26,
+    low: 356.16,
+    open: 356.18,
+    volumefrom: 80.73,
+    volumeto: 28767.74 } ]
+*/
 const fetchData = async () => {
-  const rawCryptoData = await Axios.get(BASE_API_URL
-    , { params: BASE_API_PARAMS })
+  const apiRes = await Axios.get(BASE_API_URL, { params: BASE_API_PARAMS })
 
-  console.log(rawCryptoData.data.Data)
+  switch (apiRes.status && apiRes.data.Response) {
+    case 200 && 'Success':
+      console.log("yeah")
+      // train(apiRes.data.Data)
+      break
+
+    default:
+      console.log("aw shiet")
+      break
+  }
+
+  // console.log(rawCryptoData)
 }
 
 /* CRON */
 // Base cron settings
 const cronSettings =
-  { cronTime: '0 * * * * *' // First second of every minute of every hour of ...
+  { cronTime: '0,5,10,15,20,25,30,35,40,45,50,55 * * * * *' // First second of every minute of every hour of ...
   , onTick: fetchData
   , start: false
   }
