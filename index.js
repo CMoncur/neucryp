@@ -2,6 +2,15 @@ const Axios = require('axios')
     , Brain = require('brain.js')
     , Cron  = require('cron').CronJob
 
+/* CONSTANTS */
+const BASE_API_URL = 'https://min-api.cryptocompare.com/data/histominute'
+const BASE_API_PARAMS =
+  { fsym: 'ETH'
+  , tsym: 'USD'
+  , e: 'CCCAGG'
+  , limit: 1
+  }
+
 /* NEURAL NETWORK */
 // Instantiate neural network
 let neucryp = new Brain.NeuralNetwork()
@@ -18,7 +27,9 @@ neucryp.train(dummyData)
 console.log(neucryp.run([0,1]))
 
 const fetchData = async () => {
-  const rawCryptoData = await Axios.get('https://min-api.cryptocompare.com/data/histominute?fsym=ETH&tsym=USD&e=CCCAGG&limit=1')
+  const rawCryptoData = await Axios.get(BASE_API_URL
+    , { params: BASE_API_PARAMS })
+
   console.log(rawCryptoData.data.Data)
 }
 
