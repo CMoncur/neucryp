@@ -1,6 +1,6 @@
-const Brain   = require('brain.js')
-    , Cron    = require('cron').CronJob
-    , request = require('request')
+const Axios = require('axios')
+    , Brain = require('brain.js')
+    , Cron  = require('cron').CronJob
 
 /* NEURAL NETWORK */
 // Instantiate neural network
