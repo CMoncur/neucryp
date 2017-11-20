@@ -1,5 +1,6 @@
 const Axios = require('axios')
     , Brain = require('brain.js')
+    , Chalk = require('chalk')
     , Cron  = require('cron').CronJob
 
 /* CONSTANTS */
@@ -55,9 +56,9 @@ const train = (data) => {
     return { price_rise: 0 }
   }
 
-  console.log("Training:")
-  console.log("Inputs: ", neuralNetInput)
-  console.log("Outputs: ", neuralNetOutput())
+  console.log(Chalk.yellow.bold("TRAINING"))
+  console.log(Chalk.yellow("Inputs: ", JSON.stringify(neuralNetInput)))
+  console.log(Chalk.yellow("Outputs: ", JSON.stringify(neuralNetOutput())))
   neucryp.train([ { input: neuralNetInput, output: neuralNetOutput() } ])
 
   if (output.volumeto !== 0 && output.volumefrom !== 0) {
@@ -67,7 +68,8 @@ const train = (data) => {
       }
     )
 
-    console.log("Predicting: ", prediction)
+    console.log(Chalk.green.bold("PREDICTING"))
+    console.log(Chalk.green("Prediction: ", JSON.stringify(prediction)))
   }
 }
 
