@@ -15,55 +15,74 @@ const BASE_API_PARAMS =
 // Instantiate neural network
 let neucryp = new Brain.NeuralNetwork()
 
-const dummyData =
-  [ { input: [ 0, 0 ], output: { true: 0, false: 1 } }
-  , { input: [ 0, 1 ], output: { true: 1, false: 0 } }
-  , { input: [ 1, 0 ], output: { true: 1, false: 0 } }
-  , { input: [ 1, 1 ], output: { true: 0, false: 1 } }
-  ]
-
-neucryp.train(dummyData)
-
-console.log(neucryp.run([0,1]))
-
 /*
-rawCryptoData.data.Data
-[ { time: 1511130060,
-    close: 356.18,
-    high: 356.24,
-    low: 355.68,
-    open: 355.68,
-    volumefrom: 468.34,
-    volumeto: 166628.33 },
-  { time: 1511130120,
-    close: 356.22,
-    high: 356.26,
-    low: 356.16,
-    open: 356.18,
-    volumefrom: 80.73,
-    volumeto: 28767.74 } ]
+Example response data:
+[ { time: 1511130060
+  , close: 356.18
+  , high: 356.24
+  , low: 355.68
+  , open: 355.68
+  , volumefrom: 468.34
+  , volumeto: 166628.33
+  }
+, { time: 1511130120
+  , close: 356.18
+  , high: 356.24
+  , low: 355.68
+  , open: 355.68
+  , volumefrom: 0
+  , volumeto: 0
+  }
+]
 */
+const train = (data) => {
+  // Use head of array for input, as most recent entry is often incomplete
+  const input = data[0]
+
+  // Last item in array will always contain closing price
+  const output = data[1]
+
+  const neuralNetInput =
+    { volumeto: input.volumeto
+    , volumefrom: input.volumefrom
+    }
+
+  const neuralNetOutput = { price: output.close }
+
+  console.log("Training:")
+  console.log("Inputs: ", neuralNetInput)
+  console.log("Outputs: ", neuralNetOutput)
+  neucryp.train([ { input: neuralNetInput, output: neuralNetOutput } ])
+
+  if (output.volumeto !== 0 && output.volumefrom !== 0) {
+    const prediction = neucryp.run(
+      { volumeto: output.volumeto
+      , volumefrom: output.volumefrom
+      }
+    )
+
+    console.log("Predicting: ", prediction)
+  }
+}
+
 const fetchData = async () => {
   const apiRes = await Axios.get(BASE_API_URL, { params: BASE_API_PARAMS })
 
   switch (apiRes.status && apiRes.data.Response) {
     case 200 && 'Success':
-      console.log("yeah")
-      // train(apiRes.data.Data)
+      train(apiRes.data.Data)
       break
 
     default:
       console.log("aw shiet")
       break
   }
-
-  // console.log(rawCryptoData)
 }
 
 /* CRON */
 // Base cron settings
 const cronSettings =
-  { cronTime: '0,5,10,15,20,25,30,35,40,45,50,55 * * * * *' // First second of every minute of every hour of ...
+  { cronTime: '0 * * * * *' // First second of every minute of every hour of ...
   , onTick: fetchData
   , start: false
   }
