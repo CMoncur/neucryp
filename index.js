@@ -47,12 +47,18 @@ const train = (data) => {
     , volumefrom: input.volumefrom
     }
 
-  const neuralNetOutput = { price: output.close }
+  const neuralNetOutput = () => {
+    if (output.close > output.open) {
+      return { price_rise: 1 }
+    }
+
+    return { price_rise: 0 }
+  }
 
   console.log("Training:")
   console.log("Inputs: ", neuralNetInput)
-  console.log("Outputs: ", neuralNetOutput)
-  neucryp.train([ { input: neuralNetInput, output: neuralNetOutput } ])
+  console.log("Outputs: ", neuralNetOutput())
+  neucryp.train([ { input: neuralNetInput, output: neuralNetOutput() } ])
 
   if (output.volumeto !== 0 && output.volumefrom !== 0) {
     const prediction = neucryp.run(
