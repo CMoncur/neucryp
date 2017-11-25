@@ -1,20 +1,20 @@
-const Axios = require('axios')
-    , Brain = require('brain.js')
-    , Chalk = require('chalk')
-    , Cron  = require('cron').CronJob
+const Axios = require("axios")
+const Brain = require("brain.js")
+const Chalk = require("chalk")
+const Cron  = require("cron").CronJob
 
 /* CONSTANTS */
-const BASE_API_URL = 'https://min-api.cryptocompare.com/data/histominute'
-const BASE_API_PARAMS =
-  { fsym: 'ETH'
-  , tsym: 'USD'
-  , e: 'CCCAGG'
-  , limit: 1
-  }
+const BASE_API_URL = "https://min-api.cryptocompare.com/data/histominute"
+const BASE_API_PARAMS = {
+  fsym: "ETH",
+  tsym: "USD",
+  e: "CCCAGG",
+  limit: 1,
+}
 
 /* NEURAL NETWORK */
 // Instantiate neural network
-let neucryp = new Brain.NeuralNetwork()
+const neucryp = new Brain.NeuralNetwork()
 
 /*
 Example response data:
@@ -43,10 +43,10 @@ const train = (data) => {
   // Last item in array will always contain closing price
   const output = data[1]
 
-  const neuralNetInput =
-    { volumeto: input.volumeto
-    , volumefrom: input.volumefrom
-    }
+  const neuralNetInput = {
+    volumeto: input.volumeto,
+    volumefrom: input.volumefrom,
+  }
 
   const neuralNetOutput = () => {
     if (output.close > output.open) {
@@ -62,11 +62,10 @@ const train = (data) => {
   neucryp.train([ { input: neuralNetInput, output: neuralNetOutput() } ])
 
   if (output.volumeto !== 0 && output.volumefrom !== 0) {
-    const prediction = neucryp.run(
-      { volumeto: output.volumeto
-      , volumefrom: output.volumefrom
-      }
-    )
+    const prediction = neucryp.run({
+      volumeto: output.volumeto,
+      volumefrom: output.volumefrom,
+    })
 
     console.log(Chalk.green.bold("PREDICTING"))
     console.log(Chalk.green("Prediction: ", JSON.stringify(prediction)))
@@ -77,23 +76,23 @@ const fetchData = async () => {
   const apiRes = await Axios.get(BASE_API_URL, { params: BASE_API_PARAMS })
 
   switch (apiRes.status && apiRes.data.Response) {
-    case 200 && 'Success':
-      train(apiRes.data.Data)
-      break
+  case 200 && "Success":
+    train(apiRes.data.Data)
+    break
 
-    default:
-      console.log("aw shiet")
-      break
+  default:
+    console.log("aw shiet")
+    break
   }
 }
 
 /* CRON */
 // Base cron settings
-const cronSettings =
-  { cronTime: '0 * * * * *' // First second of every minute of every hour of ...
-  , onTick: fetchData
-  , start: false
-  }
+const cronSettings = {
+  cronTime: "0 * * * * *", // First second of every minute of every hour of ...
+  onTick: fetchData,
+  start: false,
+}
 
 // Cron for training neural network and logging prediction
 const app = new Cron(cronSettings)

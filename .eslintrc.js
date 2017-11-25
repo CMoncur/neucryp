@@ -9,29 +9,35 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
-            "error",
-            2
-        ],
-        "comma-dangle": [
-          "error", {
+      "arrow-parens": [ "error", "always" ],
+      "comma-dangle": [
+        "error",
+        {
           "arrays": "never",
-          "objects": "always",
-          "imports": "always",
-          "exports": "always",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
           "functions": "ignore"
-        }],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "double"
-        ],
-        "semi": [
-            "error",
-            "never"
-        ]
+        }
+      ],
+      "indent": [ "error", 2 ],
+      "linebreak-style": [ "error", "unix" ],
+      "no-await-in-loop": [ "error" ],
+      "no-console": [
+        "error",
+        {
+          "allow": [ "error", "log", "warn" ]
+        }
+      ],
+      "no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "all"
+        }
+      ],
+      "prefer-const": [ "error" ],
+      "quotes": [ "error", "double" ],
+      "semi": [ "error", "never" ]
     }
 };
