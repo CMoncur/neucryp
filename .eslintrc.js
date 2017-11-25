@@ -13,6 +13,14 @@ module.exports = {
             "error",
             2
         ],
+        "comma-dangle": [
+          "error", {
+          "arrays": "never",
+          "objects": "always",
+          "imports": "always",
+          "exports": "always",
+          "functions": "ignore"
+        }],
         "linebreak-style": [
             "error",
             "unix"
