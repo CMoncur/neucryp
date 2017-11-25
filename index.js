@@ -1,16 +1,8 @@
-const Axios = require("axios")
-const Brain = require("brain.js")
-const Chalk = require("chalk")
-const Cron  = require("cron").CronJob
-
-/* CONSTANTS */
-const BASE_API_URL = "https://min-api.cryptocompare.com/data/histominute"
-const BASE_API_PARAMS = {
-  fsym: "ETH",
-  tsym: "USD",
-  e: "CCCAGG",
-  limit: 1,
-}
+const Axios    = require("axios")
+const Brain    = require("brain.js")
+const Chalk    = require("chalk")
+const Cron     = require("cron").CronJob
+const Defaults = require("./config/defaults")
 
 /* NEURAL NETWORK */
 // Instantiate neural network
@@ -73,7 +65,8 @@ const train = (data) => {
 }
 
 const fetchData = async () => {
-  const apiRes = await Axios.get(BASE_API_URL, { params: BASE_API_PARAMS })
+  const apiRes = await Axios.get(Defaults.BASE_API_URL,
+    { params: Defaults.BASE_API_PARAMS })
 
   switch (apiRes.status && apiRes.data.Response) {
   case 200 && "Success":
