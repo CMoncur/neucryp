@@ -1,0 +1,10 @@
+{
+  "APP": "neucryp",
+  "BASE_API_PARAMS": {
+    "fsym": "ETH",
+    "tsym": "USD",
+    "e": "CCCAGG",
+    "limit": 1
+  },
+  "BASE_API_URL": "https://min-api.cryptocompare.com/data/histominute"
+}
