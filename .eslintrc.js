@@ -22,6 +22,7 @@ module.exports = {
       ],
       "indent": [ "error", 2 ],
       "linebreak-style": [ "error", "unix" ],
+      "max-len": [ "error", 80 ],
       "no-await-in-loop": [ "error" ],
       "no-console": [
         "error",
